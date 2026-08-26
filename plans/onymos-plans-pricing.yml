@@ -1,0 +1,31 @@
+generated: '2026-08-26'
+method: searched
+source: https://onymos.com/faq/
+plan_count: 0
+public_pricing: false
+model: sales-negotiated; no published tiers, list prices, quotas or overage rates
+note: >-
+  Onymos publishes NO pricing page. /pricing returns 404 and no pricing URL appears anywhere in
+  page-sitemap.xml. The only public statement about commercial terms is one FAQ answer: "Depending on the
+  solution you need, Onymos offers multiple pricing models. We also offer 'Partnership Pricing,' meaning
+  you can defer payment until your team or organization meets an agreed-upon benchmark or success metric."
+  No tier names, no currency, no billing period, no included quota and no overage rate are stated
+  anywhere, so plans[] is genuinely empty rather than unrecorded. Every commercial path on the site funnels
+  into "Schedule your demo" or "Talk to experts". NO Pricing pointer is emitted in apis.yml, because there
+  is no pricing page to point at.
+pricing_models_mentioned:
+- name: Partnership Pricing
+  description: >-
+    Payment deferred until the customer's team or organization meets an agreed-upon benchmark or success
+    metric.
+  price: null
+  currency: null
+  billing_period: null
+  quota: null
+  overage: null
+plans: []
+evidence:
+- url: https://onymos.com/pricing
+  status: 404
+- url: https://onymos.com/faq/
+  status: 200

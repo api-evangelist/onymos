@@ -1,0 +1,197 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://onymos.com/api/onymos-docenhance-endpoints/, https://onymos.com/onymos-payments-api/,
+  https://onymos.com/api/onymos-datastore-functions/, https://onymos.com/api/onymos-location-functions/,
+  https://onymos.com/api/onymos-media-functions/, https://onymos.com/api/onymos-chat-functions/
+note: >-
+  Read from the published reference pages, not derived from an OpenAPI document — Onymos publishes none.
+  Onymos has TWO different call conventions and they do not share semantics: an HTTP+JSON REST surface
+  (DocEnhance) and an in-process SDK surface (every other Feature), where "calling the API" means
+  invoking a JavaScript object method with success and error callbacks. Both are recorded.
+authentication:
+  style: >-
+    Static service token in the `onymosIesAuthToken` request header for the DocEnhance REST API. The SDK
+    surfaces are authorised by the licensed component itself plus, where a user identity is needed, the
+    end user's third-party social session. See authentication/onymos-authentication.yml.
+  artifact: authentication/onymos-authentication.yml
+transport:
+  rest:
+    protocol: HTTPS
+    content_type: application/json
+    request_encoding: >-
+      Binary payloads are carried as base64 strings inside the JSON body (`b64Image`), not as
+      multipart/form-data. Responses return images the same way (`b64UpdatedImage` as a
+      `data:image/jpeg;base64,...` URI).
+    style: asynchronous submit-then-poll
+    described_at: https://onymos.com/api/onymos-docenhance-endpoints/
+  sdk:
+    style: callback-based JavaScript/TypeScript object methods
+    signature: 'Onymos<Feature>.<method>(args..., successCallback, errorCallback, options)'
+    promise_variant: >-
+      The Payments Feature is documented with a Promise interface (`.then(...).catch(...)`) rather than
+      the positional success/error callbacks used by Access, DataStore, Chat, Media, Location and
+      Notification. This is a genuine inconsistency in Onymos's own surface, not a transcription error.
+    described_at: https://onymos.com/api/
+asynchrony:
+  pattern: submit-then-poll
+  description: >-
+    POST /api/enhance returns immediately with `{"result_url": "...", "status": 200, "time_elapsed": ...}`
+    rather than the enhanced image. The caller then GETs the returned result URL to collect the finished
+    artifact. The published example `result_url` is `/ies/api/enhance/results/{UUID}` — note the `/ies`
+    prefix, which the endpoint reference itself never states as part of the base path.
+  correlation_id:
+    field: clientImageID
+    location: request header
+    optional: true
+    description: >-
+      "Optional ID that can be supplied to identify the returned image (e.g, IMG_4075611370134)." This is
+      the closest thing Onymos publishes to a request-tracing convention; there is no documented
+      request-id or trace header on responses.
+  polling_guidance: not published
+realtime:
+  pattern: server-push listeners on the SDK surface
+  description: >-
+    DataStore and Chat expose long-lived listeners rather than webhooks — `onymosUtil.listenForData` /
+    `stopListenForData`, `onymosChat.listenForMessages` / `listenForList` and their stop counterparts,
+    and `onymosAccess.listenForAuth` / `stopListenForAuth`. Every listener has an explicit paired
+    teardown call. Because these are in-process SDK callbacks and not HTTP callbacks delivered to a
+    customer endpoint, they do NOT constitute a webhook surface and no Webhooks or AsyncAPI pointer is
+    emitted.
+pagination:
+  style: cursor-like "next set" loaders on the SDK surface; no REST pagination
+  operations:
+  - onymosContacts.loadNextSet
+  - onymosContacts.loadSpecificSet
+  - onymosChat.loadMessagesPreviousSet
+  query_options:
+    description: >-
+      DataStore read calls take an `options` object rather than query parameters, supporting
+      `limitToFirst`, `limitToLast`, `orderByValue`, `orderByField`, `startsWith`, `equals`, `maxValue`
+      and `minValue`. This is a Firebase-Realtime-Database-shaped query vocabulary.
+  response_fields: not published
+filtering_and_sorting:
+  supported: true
+  via: DataStore `options` object (orderByValue, orderByField, startsWith, equals, maxValue, minValue)
+versioning:
+  scheme: none published
+  note: >-
+    No version segment appears in the documented DocEnhance paths (`/api/enhance`), no version header is
+    documented, and no SDK version numbers are published anywhere public. The only versioning vocabulary
+    found anywhere on the surface is `modelVersion` on `onymosDocID.listModels`, which versions a
+    customer's document-recognition model — not the API.
+error_envelope:
+  documented: false
+  shape: >-
+    Every SDK method takes an `errorCallback` and the examples only ever `console.log(error)`; the error
+    object's fields are never specified. The DocEnhance reference publishes only success examples with a
+    numeric `status` field inside the JSON body (`"status": 200`) and documents no 4xx or 5xx response at
+    all. There is no RFC 9457 problem+json, no error-code registry and no remediation guidance, which is
+    why no errors/ artifact is emitted for this provider.
+  rfc9457: false
+rate_limit_signaling:
+  documented: false
+  artifact: rate-limits/onymos-rate-limits.yml
+idempotency:
+  supported: false
+  evidence: >-
+    No Idempotency-Key header, no client-supplied request key and no retry-safety guidance appears on any
+    published Onymos reference page. `clientImageID` is a labelling aid for matching a returned image to
+    a request, not a dedupe key — nothing states that resubmitting the same clientImageID returns the
+    original enhancement instead of performing a second one. NO `Idempotency` pointer is emitted; a
+    caller that retries POST /api/enhance after a timeout must assume the work is done twice.
+dry_run_mode:
+  supported: false
+  evidence: >-
+    Nothing resembling a preview, validate-only, simulate or test-mode flag is documented on any Onymos
+    operation. `OnymosPayment.canMakePayment` checks whether a payment provider is *available* on the
+    device; it does not rehearse a specific payment.
+reversibility:
+  grade: documented
+  note: >-
+    Onymos does publish reversal operations across several write surfaces, but it publishes NO window,
+    deadline or eligibility rule for any of them, so this grades `documented` (0.4) rather than
+    `verified`. NO window is asserted below that the docs do not state — for a payments-adjacent surface
+    an invented window would be the most expensive possible error in this file. Note also that Onymos is
+    a broker here, not the system of record: `cancelSubscription` is documented as "Cancel a subscription
+    with the specified provider", so the binding cancellation window is Stripe's, PayPal's, Apple's or
+    Google's, and Onymos does not restate it.
+  surfaces:
+  - write_operation: OnymosPayment.makeSubscriptionPayment
+    reversal_operation: OnymosPayment.cancelSubscription
+    reversal_kind: cancel
+    window: null
+    window_source: null
+    docs: https://onymos.com/onymos-payments-api/
+    note: >-
+      Takes a `subscriptionId`. The reference states only "Cancel a subscription with the specified
+      provider" — no notice period, no proration rule, no cut-off relative to the next billing date.
+  - write_operation: OnymosPayment.makePayment
+    reversal_operation: null
+    reversal_kind: none
+    window: null
+    docs: https://onymos.com/onymos-payments-api/
+    note: >-
+      GAP — the Payments reference documents no refund, void or reverse operation for a one-off payment.
+      An agent that calls makePayment has no published way to undo it through Onymos.
+  - write_operation: OnymosPayment.registerAccount
+    reversal_operation: OnymosPayment.removeAccount
+    reversal_kind: delete
+    window: null
+    docs: https://onymos.com/onymos-payments-api/
+  - write_operation: OnymosUtil.addData / insertData / updateData
+    reversal_operation: OnymosUtil.deleteData
+    reversal_kind: delete
+    window: null
+    docs: https://onymos.com/api/onymos-datastore-functions/
+    note: >-
+      Not a true undo. `addData` is documented as destructive on write — "Previous data at the path
+      location will be over-written" — and no snapshot, restore or trash retention is published, so the
+      overwritten value is unrecoverable through the documented surface.
+  - write_operation: OnymosUtil.selectFile
+    reversal_operation: OnymosUtil.cancelSelectFile
+    reversal_kind: cancel
+    window: before uploadFile is called
+    window_source: >-
+      Stated qualitatively, not numerically — the reference describes cancelSelectFile as clearing the
+      callId, the selected file URI and intermediate media stores, which only applies to a selection that
+      has not yet been uploaded.
+    docs: https://onymos.com/api/onymos-datastore-functions/
+  - write_operation: OnymosUtil.uploadFile / OnymosMedia.upload
+    reversal_operation: OnymosUtil.stopUploadFile / OnymosMedia.stopUpload
+    reversal_kind: abort-in-flight
+    window: while the upload is in progress
+    window_source: >-
+      Implied by the operation's own definition (it stops an upload); no retention or post-upload delete
+      operation is published.
+    docs: https://onymos.com/api/onymos-media-functions/
+  - write_operation: OnymosGeo.createGeoFence
+    reversal_operation: OnymosGeo.deleteGeoFence / deleteAllGeoFences / setGeoFenceInactive
+    reversal_kind: delete or deactivate
+    window: null
+    docs: https://onymos.com/api/onymos-location-functions/
+  - write_operation: OnymosNotification.register
+    reversal_operation: OnymosNotification.unregister
+    reversal_kind: unregister
+    window: null
+    docs: https://onymos.com/api/onymos-notification-functions/
+  - write_operation: OnymosChat.sendMessage
+    reversal_operation: null
+    reversal_kind: none
+    window: null
+    docs: https://onymos.com/api/onymos-chat-functions/
+    note: GAP — no delete, recall or edit operation is documented for a sent chat message.
+  - write_operation: POST /api/enhance (DocEnhance)
+    reversal_operation: null
+    reversal_kind: not-applicable
+    window: null
+    docs: https://onymos.com/api/onymos-docenhance-endpoints/
+    note: >-
+      Enhancement is a pure transformation with no persisted side effect the caller can observe, and
+      under the No-Data Architecture Onymos states it does not retain customer data.
+cross_links:
+  authentication: authentication/onymos-authentication.yml
+  rate_limits: rate-limits/onymos-rate-limits.yml
+  lifecycle: lifecycle/onymos-lifecycle.yml
+  components: components/onymos-components.yml
+  errors: null

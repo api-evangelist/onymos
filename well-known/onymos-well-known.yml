@@ -1,0 +1,43 @@
+generated: '2026-08-26'
+method: probed
+source: live GET probes of every Onymos host reachable from apis.yml
+note: >-
+  Every /.well-known/ path probed on both Onymos hosts missed. onymos.com is a WordPress site behind
+  Cloudflare/Kinsta and answers a themed 404 HTML page (64,006 or 68,721 bytes) for every unknown path,
+  so no 200 was recorded and no document was saved. api.onymos.com resolves (CNAME
+  onymosapiloadbalancer-154243126.us-west-2.elb.amazonaws.com) but returns HTTP 503 with an empty body on
+  every path, including the /.well-known/ ones. NO WellKnown and NO SecurityTxt pointer is emitted for
+  this provider — this file records an absence, not a presence.
+hit_count: 0
+hosts:
+- host: https://onymos.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://api.onymos.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 503
+  - path: /.well-known/agent-card.json
+    status: 503
+soft_404_control:
+  url: https://onymos.com/.well-known/api-catalog
+  status: 404
+  bytes: 68721
+  note: >-
+    Control probe. The host returns a real 404 status (not a soft 200), so there is no catch-all
+    false-positive risk here; the absences above are genuine.

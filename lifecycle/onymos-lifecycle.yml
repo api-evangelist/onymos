@@ -1,0 +1,78 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://onymos.com/api/onymos-docenhance-endpoints/, https://onymos.com/faq/,
+  https://onymos.com/terms-of-service/, https://onymos.com/sitemap_index.xml, plus DNS lookups for
+  status.onymos.com and trust.onymos.com
+note: >-
+  Every field below is a recorded absence, verified by a probe rather than assumed. Onymos publishes a
+  product reference but none of the operational-transparency surface an integrator needs to plan around
+  change. NO StatusPage and NO Deprecation pointer is emitted, because neither exists.
+versioning:
+  scheme: none published
+  current: null
+  docs: null
+  evidence: >-
+    No version segment in the documented DocEnhance paths (/api/enhance), no version header, no dated or
+    header-based version train, and no public SDK version numbers.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  evidence: >-
+    No deprecation or end-of-life policy is published on the site, in the FAQ or in the Terms of Service,
+    and no RFC 8594 Sunset/Deprecation header behaviour is documented.
+sla:
+  url: null
+  uptime_target: null
+  evidence: >-
+    No public SLA. The FAQ describes support as relationship-based — "your account manager and our team
+    will be available to help... you'll always get personalized support" — with no response-time or
+    availability commitment.
+status_page: null
+status_page_evidence:
+  probed:
+  - host: status.onymos.com
+    result: no DNS A record
+  - host: trust.onymos.com
+    result: no DNS A record
+  note: >-
+    No status page under any conventional host, and none linked from the site footer or the docs. An
+    integrator has no published way to distinguish an Onymos outage from their own. Relevant here because
+    api.onymos.com — the only Onymos API host that resolves — returned HTTP 503 on every path probed on
+    2026-08-26, with no status surface to explain it.
+changelog:
+  url: null
+  evidence: >-
+    No changelog, release-notes or "what's new" surface exists in the sitemap index, which enumerates
+    only post, page, api_doc, guide, article, blog, category and author collections. The api_doc
+    collection's own lastmod is 2023-11-15, meaning the reference has not been touched in the sitemap for
+    nearly three years while the blog collection was updated 2026-08-22.
+deprecated_operations: []
+observed_decay:
+- signal: api_doc sitemap lastmod
+  value: '2023-11-15T16:04:32+00:00'
+  source: https://onymos.com/sitemap_index.xml
+- signal: guide sitemap lastmod
+  value: '2023-07-01T17:40:55+00:00'
+  source: https://onymos.com/sitemap_index.xml
+- signal: developer guide collection
+  value: >-
+    All twelve /guide/<feature>/ URLs are listed in guide-sitemap.xml but the ones probed 404 —
+    https://onymos.com/guide/datastore/ redirects to /?post_type=guide&p=1945 and returns 404. The guide
+    collection is advertised in the sitemap and is gone from the site.
+  source: https://onymos.com/guide-sitemap.xml
+- signal: API docs landing page
+  value: >-
+    https://onymos.com/developers/api-docs/ and https://onymos.com/platforms/api-docs/ 301 to each other
+    in an infinite loop; neither ever renders.
+  source: https://onymos.com/developers/api-docs/
+- signal: api.onymos.com
+  value: >-
+    Resolves via CNAME to onymosapiloadbalancer-154243126.us-west-2.elb.amazonaws.com and completes TLS,
+    but returns HTTP 503 with an empty body on every path probed, including / and /ies/api/enhance.
+  source: https://api.onymos.com/
+support:
+  model: named account manager plus engineering staff; no public ticketing or community forum
+  contact: https://onymos.com/contact-us/
+  source: https://onymos.com/faq/

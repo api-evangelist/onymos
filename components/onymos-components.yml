@@ -1,0 +1,248 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://onymos.com/api/ (redirect target broken — see note), the fourteen per-Feature reference pages
+  under https://onymos.com/api/onymos-*-functions/, https://onymos.com/onymos-payments-api/ and the
+  Features-as-a-Service solution pages under https://onymos.com/solutions/
+note: >-
+  For Onymos this is the PRIMARY artifact, not a secondary one. Onymos's product IS a library of drop-in
+  client-side components ("Features-as-a-Service"): the customer installs a licensed component into their
+  own app and calls it through a JavaScript/TypeScript object. Each entry below lists the exact method
+  names published on the Feature's own reference page — every name here was read off a page we fetched,
+  none was inferred. Distribution is licence-gated, so none of these components resolves to a public
+  package (see packages/onymos-packages.yml).
+distribution:
+  model: commercial licence; source code licensable to the customer
+  public_registry: false
+  install_command: not published
+  frameworks_claimed:
+  - React
+  - Angular
+  - Ionic
+  - Cordova
+  - React Native
+  - Flutter
+  - Swift
+  - Kotlin
+  - Java
+  - JavaScript/TypeScript
+  - Python
+  - Go
+  frameworks_source: https://onymos.com/developers/frameworks/
+  runtime_model: >-
+    No-Data Architecture — components execute inside the customer's own cloud or on-premises environment
+    and Onymos states it never stores, sees or accesses customer data.
+families:
+- family: Identity and access
+  components:
+  - name: Onymos Access
+    namespace: OnymosAccess
+    reference: https://onymos.com/api/onymos-access-functions/
+    solution_page: https://onymos.com/solutions/features-as-a-service-access/
+    methods:
+    - login
+    - logout
+    - getAuth
+    - listenForAuth
+    - stopListenForAuth
+    - getOtherUsersInfo
+    - signup
+    - resetPasswordRequest
+    - resetPassword
+  - name: Onymos Biometrics
+    namespace: onymosBioAuth
+    reference: https://onymos.com/api/onymos-biometrics-functions/
+    solution_page: https://onymos.com/solutions/features-as-a-service-biometrics/
+    methods:
+    - isAvailable
+    - authenticate
+- family: Data and storage
+  components:
+  - name: Onymos DataStore
+    namespace: onymosUtil
+    reference: https://onymos.com/api/onymos-datastore-functions/
+    solution_page: https://onymos.com/solutions/features-as-a-service-datastore/
+    methods:
+    - addData
+    - insertData
+    - updateData
+    - deleteData
+    - listenForData
+    - getData
+    - stopListenForData
+    - selectFile
+    - cancelSelectFile
+    - uploadFile
+    - getUploadProgress
+    - stopUploadFile
+    - searchFile
+    - getFile
+  - name: Onymos Media
+    namespace: onymosMedia
+    reference: https://onymos.com/api/onymos-media-functions/
+    solution_page: https://onymos.com/solutions/features-as-a-service-media/
+    methods:
+    - select
+    - cancelSelect
+    - upload
+    - stopUpload
+    - getUploadProgress
+    - getThumbnail
+    - getMediaType
+    - search
+- family: Communication
+  components:
+  - name: Onymos Chat
+    namespace: onymosChat
+    reference: https://onymos.com/api/onymos-chat-functions/
+    solution_page: https://onymos.com/solutions/features-as-a-service-chat/
+    methods:
+    - getList
+    - listenForList
+    - stopListenForList
+    - getMessages
+    - listenForMessages
+    - stopListenForMessages
+    - loadMessagesPreviousSet
+    - sendMessage
+  - name: Onymos Notification
+    namespace: onymosNotification
+    reference: https://onymos.com/api/onymos-notification-functions/
+    solution_page: https://onymos.com/solutions/features-as-a-service-notification/
+    methods:
+    - register
+    - unregister
+    - notify
+    - receive
+    - clearAllNotifications
+    - getApplicationBadgeNumber
+    - setApplicationBadgeNumber
+  - name: Onymos Share
+    namespace: onymosShare
+    reference: https://onymos.com/api/onymos-share-functions/
+    methods:
+    - showSocial
+  - name: Onymos Contacts
+    namespace: onymosContacts
+    reference: https://onymos.com/api/onymos-contacts-functions/
+    methods:
+    - getList
+    - loadNextSet
+    - loadSpecificSet
+  - name: Onymos DeepLink
+    namespace: onymosDeepLink
+    reference: https://onymos.com/api/onymos-deeplink-functions/
+    solution_page: https://onymos.com/solutions/features-as-a-service-deeplink/
+    methods:
+    - createDeepLink
+    - onDeepLink
+- family: Location
+  components:
+  - name: Onymos Location
+    namespace: onymosGeo
+    reference: https://onymos.com/api/onymos-location-functions/
+    solution_page: https://onymos.com/solutions/features-as-a-service-location/
+    methods:
+    - getLocation
+    - getLocationDetails
+    - getLocationFromAddress
+    - startLocationUpdates
+    - stopLocationUpdates
+    - setLocationPowerSetting
+    - createGeoFence
+    - deleteGeoFence
+    - deleteAllGeoFences
+    - setGeoFenceActive
+    - setGeoFenceInactive
+    - getMonitoredGeoFences
+    - getUnmonitoredGeoFences
+    - isLocationInGeoFence
+    - closestGeoFence
+    - getDistFromGeoFence
+- family: Payments
+  components:
+  - name: Onymos Payments
+    namespace: OnymosPayment
+    reference: https://onymos.com/onymos-payments-api/
+    solution_page: https://onymos.com/solutions/features-as-a-service-payment/
+    interface_style: >-
+      Promise-based (.then/.catch), unlike the callback-based interface used by every other Feature.
+    gateways:
+    - stripe
+    - paypal
+    - apple
+    - google
+    methods:
+    - makePayment
+    - canMakePayment
+    - makeSubscriptionPayment
+    - getSubscription
+    - listSubscriptions
+    - updateSubscription
+    - cancelSubscription
+    - getPaymentDetails
+    - getPayoutDetails
+    - payout
+    - registerAccount
+    - removeAccount
+    - setDefaultAccount
+    - getRegisteredAccounts
+- family: Document intelligence
+  components:
+  - name: Onymos DocEnhance
+    namespace: null
+    interface_style: HTTP REST (the only network API Onymos documents publicly)
+    reference: https://onymos.com/api/onymos-docenhance-endpoints/
+    operations:
+    - POST /api/enhance
+    - GET /api/enhance/results/{UUID}
+    presets:
+    - document
+    - auto-crop
+    - photo
+    - watermark
+  - name: Onymos DocID
+    namespace: OnymosDocID
+    reference: https://onymos.com/api/onymos-docid-functions/
+    methods:
+    - analyze
+    - listModels
+    note: Client-side machine-learning document classification against a customer's own model IDs.
+  - name: Onymos DocKnow
+    namespace: null
+    reference: https://onymos.com/api/onymos-docknow-functions/
+    reference_status: >-
+      BROKEN — this reference page is listed in Onymos's own sitemap but 301s into the
+      /developers/api-docs/ redirect loop, so the DocKnow function reference is not reachable.
+    industry_pages:
+    - https://onymos.com/industries/docknow-healthcare/
+    - https://onymos.com/industries/docknow-pharma/
+    - https://onymos.com/industries/docknow-precision-medicine/
+- family: IoT
+  components:
+  - name: Onymos DeviceFlow
+    namespace: null
+    reference: null
+    reference_status: >-
+      No function reference published. Described only in prose on https://onymos.com/faq/ and
+      https://onymos.com/platforms/iot-software-development/ as an IoT ecosystem with a customisable
+      dashboard that runs entirely inside the customer's infrastructure.
+- family: Bluetooth
+  components:
+  - name: Onymos Bluetooth
+    namespace: null
+    reference: null
+    reference_status: >-
+      Sold on https://onymos.com/solutions/features-as-a-service-bluetooth/ but has no entry in the
+      api_doc reference set and no published function list.
+coverage:
+  components_documented: 14
+  components_with_published_function_reference: 12
+  components_sold_without_a_reachable_reference: 3
+  gaps:
+  - >-
+    Onymos's own API-docs landing page is an infinite redirect loop: https://onymos.com/developers/api-docs/
+    301s to https://onymos.com/platforms/api-docs/ which 301s straight back. There is consequently NO
+    working index of the Onymos reference; the fourteen per-Feature pages are only discoverable through
+    https://onymos.com/api_doc-sitemap.xml or the in-page Features sidebar.
+  - DocKnow, DeviceFlow and Bluetooth are sold but have no reachable function reference.

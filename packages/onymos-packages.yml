@@ -1,0 +1,72 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  npm registry search + scope query, PyPI, RubyGems, crates.io, Packagist, NuGet and Maven Central
+  metadata endpoints, plus https://onymos.com/faq/ and https://onymos.com/developers/frameworks/
+official_package_count: 0
+note: >-
+  Onymos publishes NO first-party client library to any public package registry. This is a deliberate
+  distribution model, not an oversight: Onymos sells "Features-as-a-Service" components that are
+  delivered under a commercial licence and installed into the customer's own repository — the FAQ states
+  "We even offer to license the actual source code to our customers", and the enterprise licence page
+  redirects into the Terms of Service. There is therefore no public `npm install` / `pip install` line to
+  record for any Onymos Feature, and consequently NO `SDKs` pointer is emitted in apis.yml: an SDK a
+  developer cannot obtain without a sales conversation is not a published SDK. The languages and
+  frameworks Onymos says it ships for (React, Angular, Ionic, Cordova, React Native, Flutter, Swift,
+  Kotlin, Java, JavaScript/TypeScript, Python, Go) are claimed on the Frameworks page but not backed by
+  any registry artifact we could fetch.
+registries_probed:
+- registry: npm
+  query: 'text=onymos and scope:onymos'
+  first_party_hits: 0
+  status: 200
+- registry: npm
+  query: scope:onymos
+  first_party_hits: 0
+  status: 200
+- registry: pypi
+  query: /pypi/onymos/json
+  status: 404
+- registry: rubygems
+  query: /api/v1/gems/onymos.json
+  status: 404
+- registry: crates.io
+  query: /api/v1/crates/onymos
+  status: 403
+  note: crates.io rejected the unauthenticated user agent; treated as not-checked rather than absent.
+- registry: packagist
+  query: /search.json?q=onymos
+  status: 200
+  first_party_hits: 0
+- registry: nuget
+  query: azuresearch q=onymos
+  status: 200
+  first_party_hits: 0
+- registry: maven-central
+  query: solrsearch q=onymos
+  status: 200
+  first_party_hits: 0
+- registry: github
+  query: https://api.github.com/orgs/onymos
+  status: 200
+  public_repos: 0
+  note: >-
+    A github.com/onymos organization exists (created 2023-11-16) but publishes zero public repositories,
+    carries no description and is unverified, so first-party ownership could not be confirmed from GitHub
+    itself and no GitHubOrganization pointer is emitted.
+packages:
+- language: javascript
+  registry: npm
+  name: onymos-feature-share
+  url: https://www.npmjs.com/package/onymos-feature-share
+  install: npm install onymos-feature-share
+  version: 0.1.1
+  published: '2022-04-19'
+  official: false
+  note: >-
+    The only npm package matching "onymos". NOT treated as first-party: its own package.json describes it
+    as "testing share feature", names author "ashok <ashok@gmail.com>" and points repository, bugs and
+    homepage at github.com/Vhhdx/onymos-feature-share — a personal account, not the github.com/onymos
+    organization or any onymos.com address. Recorded for completeness so a later round does not
+    re-discover it and mistake it for an Onymos SDK. Last published 2022-04-19, more than four years
+    before this probe.

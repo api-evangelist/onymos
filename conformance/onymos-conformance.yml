@@ -1,0 +1,107 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://onymos.com/security/, https://onymos.com/faq/,
+  https://onymos.com/api/onymos-access-functions/, https://onymos.com/api/onymos-docenhance-endpoints/,
+  and the live /.well-known/ probes recorded in well-known/onymos-well-known.yml
+note: >-
+  Onymos publishes no machine-readable contract, so nothing here is derived from a spec — each entry
+  below is asserted from a page we fetched, and every `conforms: false` records that the surface was
+  looked for and not found rather than that it was assumed absent.
+standards:
+- id: oauth2
+  conforms: true
+  role: relying-party
+  evidence: >-
+    The Onymos Access reference documents OnymosAccess.login as authenticating "the user using one of the
+    leading social authentication (OAuth 2.0) providers" (apple, facebook, google) and passes an OAuth
+    `scope` string through to the provider. Onymos consumes OAuth 2.0; it does not issue it.
+  source: https://onymos.com/api/onymos-access-functions/
+- id: oidc
+  conforms: false
+  evidence: >-
+    No OpenID Connect surface of Onymos's own. https://onymos.com/.well-known/openid-configuration
+    returned 404.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    The DocEnhance reference publishes only success bodies with an in-body numeric `status`; no
+    application/problem+json media type and no error schema appear anywhere on the published surface.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: https://onymos.com/.well-known/security.txt returned 404.
+- id: rfc8615-well-known
+  conforms: false
+  evidence: All eight /.well-known/ paths probed on onymos.com returned 404.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No deprecation or sunset policy is published; see lifecycle/onymos-lifecycle.yml.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No idempotency key or retry-safety contract is documented on any operation; see
+    conventions/onymos-conventions.yml.
+- id: pagination
+  conforms: true
+  evidence: >-
+    A consistent "load next / previous set" pagination idiom is documented across the SDK surface
+    (onymosContacts.loadNextSet, loadSpecificSet, onymosChat.loadMessagesPreviousSet) together with
+    limitToFirst/limitToLast options on DataStore reads. No pagination exists on the REST surface.
+- id: openapi
+  conforms: false
+  evidence: >-
+    No OpenAPI/Swagger document was found. Probed /openapi.json, /swagger.json, /api-docs and
+    /api/openapi.json on onymos.com (404) and on api.onymos.com (503).
+- id: asyncapi
+  conforms: false
+  evidence: No event or webhook surface is published; Onymos's realtime model is in-process SDK listeners.
+- id: graphql
+  conforms: false
+  evidence: /graphql returned 404 on onymos.com and 503 on api.onymos.com.
+- id: mcp
+  conforms: false
+  evidence: No MCP server; /mcp returned 404 and mcp.onymos.com does not resolve.
+- id: a2a
+  conforms: false
+  evidence: /.well-known/agent-card.json and /.well-known/agent.json both returned 404 on onymos.com.
+compliance_programs:
+- id: soc2
+  claimed: true
+  status: certified
+  evidence: '"Certified SOC 2 and HIPAA compliant." — https://onymos.com/security/'
+  report_available: unknown
+  note: >-
+    The claim is stated on the marketing security page. Onymos publishes no trust portal, no report
+    request flow and no audit date, so the claim could not be corroborated beyond the page itself.
+- id: hipaa
+  claimed: true
+  status: compliant
+  evidence: >-
+    "Certified SOC 2 and HIPAA compliant." — https://onymos.com/security/. The FAQ adds that under the
+    No-Data Architecture Onymos "doesn't process PHI, PII, and other kinds of sensitive data types",
+    which is the architectural basis of the claim.
+  source: https://onymos.com/faq/
+- id: third-party-audit
+  claimed: true
+  status: asserted
+  evidence: >-
+    "Onymos products are also subject to rigorous third-party audits and penetration tests." —
+    https://onymos.com/faq/. No auditor, scope or date is named.
+domain_standard:
+  applicable: false
+  note: >-
+    REWARD-ONLY CHECK, DELIBERATELY LEFT EMPTY. Onymos sells horizontal application components
+    (auth, chat, storage, notifications, geofencing, media, payments) plus document-image enhancement.
+    Its published contract declares no domain-standard signature — no HL7v2/FHIR resource, no X12 or
+    ISO 20022 message type, no SCIM URN, no OData $metadata, no OpenRTB, no LTI/OneRoster, no OAI-PMH
+    verb. Its healthcare positioning is a customer segment, not a wire format: DocEnhance moves base64
+    JPEGs, not clinical documents in a standard envelope. No conformance is invented to fill this slot.
+  probed_for:
+  - fhir
+  - hl7v2
+  - x12
+  - iso-20022
+  - scim
+  - odata
+  - openrtb
+  - lti

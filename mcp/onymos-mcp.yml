@@ -1,0 +1,31 @@
+generated: '2026-08-26'
+method: probed
+status: none
+source: >-
+  Live probes of https://onymos.com/mcp (404), https://mcp.onymos.com/ (no DNS A record),
+  https://api.onymos.com/ (503 on every path), plus /.well-known/ai-plugin.json,
+  /.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource on onymos.com (all 404)
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: probed
+tools: []
+note: >-
+  Onymos ships NO MCP server — not a hosted endpoint and not a stdio package. No @onymos npm scope exists
+  (registry search returned 0 results), no MCP host resolves, and nothing on the site or in the reference
+  mentions MCP, agents or tool calling. No candidate tool list is derived either: deriving one requires
+  OpenAPI operations to derive FROM, and Onymos publishes no machine-readable contract. NO MCPServer
+  pointer is emitted in apis.yml — this file records the absence so a later round does not re-probe from
+  scratch, and it must not be read as an agent surface.
+evidence:
+- url: https://onymos.com/mcp
+  status: 404
+- url: https://mcp.onymos.com/
+  status: '<no DNS A record>'
+- url: https://onymos.com/.well-known/ai-plugin.json
+  status: 404
+- url: https://api.onymos.com/.well-known/agent-card.json
+  status: 503

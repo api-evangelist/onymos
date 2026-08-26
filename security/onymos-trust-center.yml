@@ -1,0 +1,13 @@
+generated: '2026-08-26'
+method: searched
+probe: true
+source: https://onymos.com/security/
+url: https://onymos.com/security/
+certifications:
+- SOC 2
+- HIPAA
+evidence:
+- source: https://onymos.com/security/
+  keywords:
+  - soc 2
+  - hipaa

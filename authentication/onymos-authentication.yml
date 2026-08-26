@@ -1,0 +1,72 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://onymos.com/api/onymos-docenhance-endpoints/ and
+  https://onymos.com/api/onymos-access-functions/
+docs: https://onymos.com/api/onymos-docenhance-endpoints/
+note: >-
+  Derived by reading the published reference pages, NOT from an OpenAPI document — Onymos publishes no
+  machine-readable contract, so there are no `securitySchemes` to aggregate and
+  0-working/derive-authentication.py had nothing to read. Two distinct and unrelated auth surfaces exist
+  and are kept separate below: (1) the service token that authorises calls to the Onymos DocEnhance REST
+  API, and (2) the end-user social sign-in that the Onymos Access component brokers on behalf of the
+  customer's app. (2) is NOT API authentication — Onymos never issues or holds those credentials; under
+  the No-Data Architecture the OAuth 2.0 exchange happens between the customer's app and Apple, Facebook
+  or Google.
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  oauth2_flows: []
+  oauth2_scopes_documented: false
+  mutual_tls: false
+  openid_connect: false
+schemes:
+- name: onymosIesAuthToken
+  type: apiKey
+  in: header
+  parameter_name: onymosIesAuthToken
+  applies_to: Onymos DocEnhance REST API
+  required: true
+  description: >-
+    "An Onymos API authorization token is required to perform any requests." Sent as a request header on
+    both documented DocEnhance operations (POST /api/enhance and GET /api/enhance/results/{UUID}). The
+    docs do not publish how the token is obtained, rotated, scoped or expired, and there is no
+    self-service issuance page — the token arrives through the commercial onboarding.
+  sources:
+  - https://onymos.com/api/onymos-docenhance-endpoints/
+delegated_end_user_auth:
+- name: Onymos Access
+  protocol: OAuth 2.0 (delegated to third-party identity providers)
+  providers:
+  - apple
+  - facebook
+  - google
+  scope_parameter: >-
+    An optional `scope` option is passed straight through to the provider — comma-separated for Facebook,
+    space-separated for Google. The scope strings are the providers' own, not an Onymos scope vocabulary,
+    which is why no scopes/ artifact is emitted for this provider.
+  operations:
+  - OnymosAccess.login
+  - OnymosAccess.logout
+  - OnymosAccess.getAuth
+  - OnymosAccess.listenForAuth
+  - OnymosAccess.stopListenForAuth
+  - OnymosAccess.signup
+  - OnymosAccess.resetPasswordRequest
+  - OnymosAccess.resetPassword
+  - OnymosAccess.getOtherUsersInfo
+  sources:
+  - https://onymos.com/api/onymos-access-functions/
+- name: Onymos Biometrics
+  protocol: device biometric (Face ID / Touch ID / Android biometric prompt)
+  operations:
+  - onymosBioAuth.isAvailable
+  - onymosBioAuth.authenticate
+  sources:
+  - https://onymos.com/api/onymos-biometrics-functions/
+gaps:
+- No published token-issuance, rotation or expiry policy for onymosIesAuthToken.
+- No OAuth 2.0 or OIDC surface of Onymos's own; no /.well-known/openid-configuration (404).
+- No documented scope vocabulary, so scopes/ is deliberately not emitted.

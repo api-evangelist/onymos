@@ -1,18 +1,70 @@
 aid: onymos
 name: Onymos
-description: 'Onymos is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'Onymos is a Menlo Park, California software company that sells "Features-as-a-Service" (FaaS) — pre-built,
+  pro-code application components that enterprise engineering teams drop into their own web, mobile and IoT apps
+  instead of building commodity functionality from scratch. The catalog spans Access (social/OAuth 2.0 login), Biometrics,
+  Chat, Contacts, DataStore, DeepLink, Location/geofencing, Media, Notification, Payments, Share, and a document-intelligence
+  family — DocEnhance (image enhancement and OCR pre-processing), DocID (client-side document classification) and
+  DocKnow (intelligent document processing). Onymos is built on a "No-Data Architecture": the software runs inside
+  the customer''s own cloud or on-premises environment and Onymos never stores, sees, or accesses customer data,
+  and customers may license the source code outright. Developers consume the features through JavaScript/TypeScript
+  SDK objects (OnymosAccess, OnymosChat, OnymosUtil, OnymosPayment, OnymosDocID and siblings) across React, Angular,
+  Ionic, Cordova, React Native, Flutter, Swift, Kotlin, Java, Python and Go. DocEnhance additionally exposes a documented
+  asynchronous REST surface. Onymos states it is SOC 2 certified and HIPAA compliant, and it concentrates on healthcare,
+  life sciences and laboratory workflows.'
 url: https://raw.githubusercontent.com/api-evangelist/onymos/refs/heads/main/apis.yml
+image: https://onymos.com/wp-content/uploads/2021/05/onymos-social.jpg
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment:local-v1
 specificationVersion: '0.20'
 created: '2026-08-26'
 modified: '2026-08-26'
 tags:
-- Company
-apis: []
+- Features as a Service
+- SDK
+- Application Development
+- Mobile
+- Document Processing
+- Intelligent Document Processing
+- OCR
+- Healthcare
+- Life Sciences
+- Authentication
+- Chat
+- Push Notifications
+- Geolocation
+- Payments
+- IoT
+- No-Data Architecture
+- Components
+apis:
+- name: Onymos DocEnhance API
+  description: Asynchronous document-image enhancement REST API. POST /api/enhance accepts a base64-encoded image
+    plus a preset (document, auto-crop, photo or watermark) and returns a result_url immediately; GET /api/enhance/results/{UUID}
+    collects the enhanced image as a base64 data URI. Presets remove shadows, wrinkles, speckle noise and non-solid
+    watermarks, auto-crop and deskew, and convert to black and white to raise OCR accuracy and human-in-the-loop
+    verification. Requests are authorised with an onymosIesAuthToken request header. This is the only network API
+    Onymos documents publicly; every other Onymos Feature is consumed as an in-process SDK object.
+  humanURL: https://onymos.com/api/onymos-docenhance-endpoints/
+  x-baseURL-status: not-published
+  x-baseURL-note: 'Onymos does not state a base host anywhere in the DocEnhance endpoint reference. The only host
+    evidence available is indirect and unusable as a base: the published example result_url is the path "/ies/api/enhance/results/{UUID}"
+    (note the /ies prefix the reference never explains), and api.onymos.com resolves via CNAME to onymosapiloadbalancer-154243126.us-west-2.elb.amazonaws.com
+    but returned HTTP 503 with an empty body on every path probed on 2026-08-26, including /ies/api/enhance. Recording
+    baseURL as missing rather than guessing api.onymos.com from the domain, per the enrichment contract.'
+  tags:
+  - Document Processing
+  - Image Enhancement
+  - OCR
+  - Intelligent Document Processing
+  - Asynchronous
+  properties:
+  - type: APIReference
+    url: https://onymos.com/api/onymos-docenhance-endpoints/
+  - type: Authentication
+    url: authentication/onymos-authentication.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +72,49 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://www.nasdaqprivatemarket.com/
+  url: https://onymos.com/
+- type: APIReference
+  url: https://onymos.com/api/onymos-docenhance-endpoints/
+- type: Documentation
+  url: https://onymos.com/api/onymos-access-functions/
+  name: Onymos Feature reference (Access)
+- type: Support
+  url: https://onymos.com/contact-us/
+- type: Blog
+  url: https://onymos.com/blog/
+- type: BlogRSS
+  url: https://onymos.com/blog/feed/
+- type: TermsOfService
+  url: https://onymos.com/terms-of-service/
+- type: PrivacyPolicy
+  url: https://onymos.com/privacy-policy/
+- type: Compliance
+  url: https://onymos.com/security/
+  name: SOC 2 certified and HIPAA compliant
+- type: Packages
+  url: packages/onymos-packages.yml
+- type: Authentication
+  url: authentication/onymos-authentication.yml
+- type: Conventions
+  url: conventions/onymos-conventions.yml
+- type: Conformance
+  url: conformance/onymos-conformance.yml
+- type: Components
+  url: components/onymos-components.yml
+- type: Lifecycle
+  url: lifecycle/onymos-lifecycle.yml
+- type: Plans
+  url: plans/onymos-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/onymos-rate-limits.yml
+- type: LLMsTxt
+  url: llms/onymos-llms.txt
+- type: TrustCenter
+  url: security/onymos-trust-center.yml
+- type: DomainSecurity
+  url: security/onymos-domain-security.yml
+x-enrichment:
+  date: '2026-08-26'
+  status: enriched
+  artifacts_added: 13
+  pass: local-v1

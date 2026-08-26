@@ -1,0 +1,26 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  https://onymos.com/api/onymos-docenhance-endpoints/ and every other published Onymos reference page
+limit_count: 0
+headers_documented: false
+note: >-
+  Onymos documents NO rate limits and NO rate-limit response headers. The DocEnhance endpoint reference —
+  the only HTTP surface Onymos publishes — lists request headers (Content-Type, clientImageID,
+  onymosIesAuthToken) and body parameters in full but names no quota, no throttle, no burst allowance and
+  no 429 behaviour, and its example responses carry no X-RateLimit-*, RateLimit-* or Retry-After header.
+  The SDK Features are in-process calls against the customer's own backend under the No-Data Architecture,
+  so a network rate limit would not be the natural control point for most of them; DocEnhance, which IS a
+  hosted call, is the surface where the omission actually costs an integrator. Nothing was observed live
+  either: api.onymos.com returned 503 with an empty body on every probe, so no response headers could be
+  read. An honest zero, verified against the published reference, not an unchecked field.
+limits: []
+response_headers: []
+exhaustion_status_code: null
+evidence:
+- url: https://onymos.com/api/onymos-docenhance-endpoints/
+  status: 200
+  finding: full header and body reference published; no rate-limit field of any kind
+- url: https://api.onymos.com/ies/api/enhance
+  status: 503
+  finding: empty body, no headers observable
