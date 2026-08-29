@@ -13,6 +13,17 @@ description: 'Onymos is a Menlo Park, California software company that sells "Fe
   asynchronous REST surface. Onymos states it is SOC 2 certified and HIPAA compliant, and it concentrates on healthcare,
   life sciences and laboratory workflows.'
 url: https://raw.githubusercontent.com/api-evangelist/onymos/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://onymos.com/wp-content/uploads/2021/05/onymos-social.jpg
 x-type: company
 x-source: harvest:secondary-market
