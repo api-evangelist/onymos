@@ -64,5 +64,104 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Onymos is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://www.nasdaqprivatemarket.com/
+Onymos is a Menlo Park, California software company that sells "Features-as-a-Service" (FaaS) — pre-built, pro-code application components that enterprise engineering teams drop into their own web, mobile and IoT apps instead of building commodity functionality from scratch. The catalog spans Access (social/OAuth 2.0 login), Biometrics, Chat, Contacts, DataStore, DeepLink, Location/geofencing, Media, Notification, Payments, Share, and a document-intelligence family — DocEnhance (image enhancement and OCR pre-processing), DocID (client-side document classification) and DocKnow (intelligent document processing). Onymos is built on a "No-Data Architecture": the software runs inside the customer's own cloud or on-premises environment and Onymos never stores, sees, or accesses customer data, and customers may license the source code outright. Developers consume the features through JavaScript/TypeScript SDK objects (OnymosAccess, OnymosChat, OnymosUtil, OnymosPayment, OnymosDocID and siblings) across React, Angular, Ionic, Cordova, React Native, Flutter, Swift, Kotlin, Java, Python and Go. DocEnhance additionally exposes a documented asynchronous REST surface. Onymos states it is SOC 2 certified and HIPAA compliant, and it concentrates on healthcare, life sciences and laboratory workflows.
+
+**Areas:** Features as a Service · SDK · Application Development · Mobile · Document Processing · Intelligent Document Processing · OCR · Healthcare · Life Sciences · Authentication · Chat · Push Notifications
+
+## Onymos on APIs.io
+
+Everything profiled for Onymos is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/onymos/](https://apis.io/providers/onymos/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [Onymos DocEnhance API](https://apis.io/apis/onymos/onymos-docenhance-api/) — Asynchronous document-image enhancement REST API. POST /api/enhance accepts a base64-encoded image plus a preset (document, auto-crop, photo or watermark)…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Onymos Authentication](https://apis.io/security/onymos/onymos-authentication/)
+- [Onymos Domain Security](https://apis.io/security/onymos/onymos-domain-security/)
+- [Onymos Trust Center](https://apis.io/security/onymos/onymos-trust-center/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Onymos Plans Pricing](https://apis.io/plans/onymos/onymos-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Onymos Rate Limits](https://apis.io/rate-limits/onymos/onymos-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://onymos.com/)
+- [Documentation](https://onymos.com/api/onymos-access-functions/)
+- [API reference](https://onymos.com/api/onymos-docenhance-endpoints/)
+- [Support](https://onymos.com/contact-us/)
+- [Blog](https://onymos.com/blog/)
+- [Compliance](https://onymos.com/security/)
+- [Terms of service](https://onymos.com/terms-of-service/)
+- [Privacy policy](https://onymos.com/privacy-policy/)
+
+## API Evangelist rating
+
+**Kin Score 24.8** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 64.3 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 35.7 |
+| Access clarity | 36.8 |
+
+**Agent readiness 5.0** — human-only
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 23.4** — Health
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/onymos/](https://apis.io/providers/onymos/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Onymos: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/onymos/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
